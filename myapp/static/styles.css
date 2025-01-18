@@ -1,0 +1,195 @@
+/* General Styles */
+body {
+    font-family: 'Roboto';
+    background: #f6f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container Styles */
+.container {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    display: flex;
+    width: 900px;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Form Container Styles */
+.form-container {
+    padding: 50px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #ffffff;
+}
+
+.form-container h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-container input {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 300px;
+    font-size: 14px;
+}
+
+.form-container button {
+    border: none;
+    border-radius: 5px;
+    padding: 15px 20px;
+    background-color: #3D52A0;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #3D52A0;
+}
+
+/* Social Container Styles */
+.social-container {
+    margin-bottom: 20px;
+}
+
+.social-container a {
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+    color: #3D52A0;
+    font-size: 18px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.social-container a:hover {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+/* Overlay Styles */
+.overlay-container {
+    background: #3D52A0;
+    color: white;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 50px;
+}
+
+.overlay-container .overlay h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.overlay-container .overlay p {
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.overlay-container .overlay button {
+    background: transparent;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.overlay-container .overlay button:hover {
+    background-color: white;
+    color: #4caf50;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .form-container,
+    .overlay-container {
+        width: 100%;
+    }
+}
+
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box;
+}
+
+/* Header Styles */
+header {
+    width: 100%;
+    color: #3D52A0;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end; /* Align content to the right */
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensures header stays on top */
+}
+
+/* Welcome Message and Logout Button */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between the message and button */
+}
+
+.header-right span {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.logout-button {
+    background-color: #3D52A0; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #2E3D76; /* Darker shade on hover */
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    text-align: center;
+}

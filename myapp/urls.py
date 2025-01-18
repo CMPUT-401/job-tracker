@@ -1,6 +1,9 @@
 from django.urls import path
-from . import views  # Import your views from the app
+from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),  # Root URL ('/') shows the home view
+    path('', views.signup, name='signup'),  # Default route points to signup
+    path('login/', views.login_user, name='login'),  # Login page
+    path('dashboard/', views.dashboard, name='dashboard'), 
+    path('logout/', views.logout_user, name='logout'),
 ]
