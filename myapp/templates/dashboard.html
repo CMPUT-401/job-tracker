@@ -8,6 +8,7 @@
 <body>
     <header>
         <div class="header-right">
+            <button class="ai-button" onclick="openPopupAI()">AI Tailor</button>
             <span>Welcome, User!</span>
             <button class="logout-button">Logout</button>
         </div>
@@ -79,6 +80,25 @@
         </div>
     </div>
 
+    <!-- Popup Form -->
+    <div id="popup-ai" class="popup-ai" style="display: none;">
+        <div class="popup-content">
+            <h2>Jobscan</h2>
+                <h3>Job Description</h3>
+                <input id="Job-description" name="Paste Job Description..." required>
+                <button type="button"  class="cancel-button" onclick="submitText()">Generate keywords</button>
+                <button type="button" class="cancel-button" onclick="closePopupAI()">Cancel</button>
+            
+            </form>
+         
+            <h2>Extracted Keywords:</h2>
+            <ul id="keywords-list"></ul>
+        </div>
+        
+    </div>
+
+    
+
     <script>
         function openPopup() {
             document.getElementById("popup-form").style.display = "block";
@@ -87,6 +107,53 @@
         function closePopup() {
             document.getElementById("popup-form").style.display = "none";
         }
+
+        function openPopupAI() {
+            document.getElementById("popup-ai").style.display = "block";
+        }
+
+        function closePopupAI() {
+            document.querySelector('#Job-description').value = ''; // Clear the input field
+            document.getElementById("popup-ai").style.display = "none";
+
+            document.getElementById('keywords-list').innerHTML = ''; // Clear the content of the div
+
+        }
+
+        function submitText() {
+            const userText = document.getElementById("Job-description").value;
+
+            if (userText.trim()) {
+                // Make an AJAX POST request to extract keywords
+                fetch("{% url 'extract_keywords' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+                    },
+                    body: "text=" + encodeURIComponent(userText)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Show extracted keywords
+                    const keywordsList = document.getElementById("keywords-list");
+                    keywordsList.innerHTML = "";  // Clear existing list
+                    data.keywords.forEach(keyword => {
+                        const li = document.createElement("li");
+                        li.textContent = `${keyword[0]} (Frequency: ${keyword[1]})`;
+                        keywordsList.appendChild(li);
+                    });
+
+                    // Close the popup
+                    closePopup();
+                })
+                .catch(error => console.error("Error:", error));
+            } else {
+                alert("Please enter some text!");
+            }
+        }
+
+        
     </script>
 </body>
 </html>
