@@ -177,10 +177,52 @@
             document.getElementById("notes").value = "";
         }
 
-        document.getElementById('master-resume-button').addEventListener('click', function () {
-        window.location.href = "{% url 'resume_tailor' %}";
-    });
+        function openPopupAI() {
+            document.getElementById("popup-ai").style.display = "block";
+        }
 
+        function closePopupAI() {
+            document.querySelector('#Job-description').value = ''; // Clear the input field
+            document.getElementById("popup-ai").style.display = "none";
+
+            document.getElementById('keywords-list').innerHTML = ''; // Clear the content of the div
+
+        }
+
+        function submitText() {
+            const userText = document.getElementById("Job-description").value;
+
+            if (userText.trim()) {
+                // Make an AJAX POST request to extract keywords
+                fetch("{% url 'extract_keywords' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+                    },
+                    body: "text=" + encodeURIComponent(userText)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Show extracted keywords
+                    const keywordsList = document.getElementById("keywords-list");
+                    keywordsList.innerHTML = "";  // Clear existing list
+                    data.keywords.forEach(keyword => {
+                        const li = document.createElement("li");
+                        li.textContent = `${keyword[0]} (Frequency: ${keyword[1]})`;
+                        keywordsList.appendChild(li);
+                    });
+
+                    // Close the popup
+                    closePopup();
+                })
+                .catch(error => console.error("Error:", error));
+            } else {
+                alert("Please enter some text!");
+            }
+        }
+
+        
     </script>
 </body>
 </html>

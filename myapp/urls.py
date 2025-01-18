@@ -9,4 +9,5 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('', views.home, name='home'),  # Root URL ('/') shows the home view
     path('resume-tailor/', views.resume_tailor, name='resume_tailor'),
+    path('extract_keywords/', views.extract_keywords_view, name='extract_keywords')
 ]

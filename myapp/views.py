@@ -4,6 +4,45 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import JobApplication, Notification
 from django.utils.dateparse import parse_date
+#import spacy
+from collections import Counter
+from django.http import JsonResponse
+
+#nlp = spacy.load("en_core_web_sm") #load spacy language model
+
+def extract_keywords(text, top_n=10):
+    """
+    Extracts keywords from a given text using spaCy.
+    """
+    # Process the text with spaCy
+    doc = nlp(text)
+
+    # List to hold the keywords (filtered words)
+    keywords = [
+        token.text.lower() for token in doc
+        if token.pos_ in ["NOUN", "PROPN", "ADJ", "VERB"] and not token.is_stop and not token.is_punct
+    ]
+
+    # Count the frequency of each keyword
+    keyword_freq = Counter(keywords)
+
+    # Return the most common keywords
+    return keyword_freq.most_common(top_n)
+
+def index(request):
+    """
+    Renders the main page where users can paste text.
+    """
+    return render(request, "keyword_extractor/index.html")
+
+def extract_keywords_view(request):
+    """
+    View to handle the AJAX request for keyword extraction.
+    """
+    if request.method == "POST":
+        text = request.POST.get("text")
+        keywords = extract_keywords(text)
+        return JsonResponse({"keywords": keywords})
 
 def signup(request):
     if request.method == 'POST':
