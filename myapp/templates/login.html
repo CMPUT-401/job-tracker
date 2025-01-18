@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="container">
+        <!-- Sign-In Form -->
         <div class="form-container sign-in-container">
             <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
@@ -24,6 +25,16 @@
                     {% endfor %}
                 </div>
             {% endif %}
+        </div>
+        <!-- Overlay for Signup Prompt -->
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Don't have an account? Sign up today to get started.</p>
+                    <a href="{% url 'signup' %}"><button class="ghost">Sign Up</button></a>
+                </div>
+            </div>
         </div>
     </div>
 </body>

@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import JobApplication
+from django.utils.dateparse import parse_date
 
 def signup(request):
     if request.method == 'POST':
@@ -53,8 +54,14 @@ def home(request):
     return render(request, 'home.html')
 
 def dashboard(request):
-    applications = JobApplication.objects.all()  # Fetch all job applications
-    return render(request, 'dashboard.html', {'applications': applications})
+    status_filter = request.GET.get('status', None)  # Get the filter from the query parameters
+    if status_filter:  # If a filter is applied
+        applications = JobApplication.objects.filter(status=status_filter)
+    else:
+        applications = JobApplication.objects.all()  # Otherwise, show all applications
+
+    statuses = ['Yet to Apply', 'Applied', 'Interview Offer', 'Interview Completed', 'Offered', 'Rejected']
+    return render(request, 'dashboard.html', {'applications': applications, 'statuses': statuses})
 
 def logout_user(request):
     logout(request)
@@ -105,22 +112,24 @@ def resume_tailor(request):
         'blank_resume': blank_resume,
     })
 
-def add_application(request):
-    if request.method == 'POST':
-        company = request.POST['company']
-        position = request.POST['position']
-        status = request.POST['status']
-        deadline = request.POST['deadline']
-        date_applied = request.POST.get('date_applied', None)
-        notes = request.POST.get('notes', '')
+def add_or_edit_application(request):
+    if request.method == "POST":
+        app_id = request.POST.get("id", None)
+        if app_id:  # Edit existing application
+            application = get_object_or_404(JobApplication, id=app_id)
+        else:  # Add new application
+            application = JobApplication()
 
-        JobApplication.objects.create(
-            company=company,
-            position=position,
-            status=status,
-            deadline=deadline,
-            date_applied=date_applied,
-            notes=notes
-        )
-        return redirect('dashboard')  # Redirect to the dashboard after adding
-    return render(request, 'dashboard.html')
+        # Retrieve fields and allow them to be empty
+        application.company = request.POST.get("company", None) or None
+        application.position = request.POST.get("position", None) or None
+        application.status = request.POST.get("status", None) or None
+        application.deadline = parse_date(request.POST.get("deadline", None)) or None
+        application.date_applied = parse_date(request.POST.get("date_applied", None)) or None
+        application.notes = request.POST.get("notes", None) or None
+
+        application.save()
+        messages.success(request, "Application saved successfully!")
+        return redirect("dashboard")
+
+    return redirect("dashboard")

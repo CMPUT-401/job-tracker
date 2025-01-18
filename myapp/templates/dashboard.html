@@ -6,16 +6,20 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <header>
-        <div class="header-right">
-            <span>Welcome, User!</span>
-            <button class="logout-button">Logout</button>
-        </div>
-    </header>
     <main>
-        <h1>Dashboard</h1>
         <h2>Job Applications</h2>
         <button class="add-button" onclick="openPopup()">Add Application</button>
+        <div class="filter-options">
+            <span>Filter by Status: </span>
+            <form method="get" action="{% url 'dashboard' %}">
+                <select name="status" onchange="this.form.submit()">
+                    <option value="">All</option>
+                    {% for status in statuses %}
+                        <option value="{{ status }}" {% if request.GET.status == status %}selected{% endif %}>{{ status }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -25,6 +29,7 @@
                     <th>Deadline</th>
                     <th>Date Applied</th>
                     <th>Notes</th>
+                    <th>Actions</th> <!-- New Actions column -->
                 </tr>
             </thead>
             <tbody>
@@ -32,10 +37,18 @@
                 <tr>
                     <td>{{ application.company }}</td>
                     <td>{{ application.position }}</td>
-                    <td>{{ application.status }}</td>
+                    <td>
+                        <span class="status-badge status-{{ application.status|slugify }}">
+                            {{ application.status|default:"N/A" }}
+                        </span>
+                    </td>
                     <td>{{ application.deadline }}</td>
                     <td>{{ application.date_applied }}</td>
                     <td>{{ application.notes }}</td>
+                    <td>
+                        <!-- Edit button -->
+                        <button class="edit-button" onclick="editApplication('{{ application.id }}', '{{ application.company }}', '{{ application.position }}', '{{ application.status }}', '{{ application.deadline }}', '{{ application.date_applied }}', '{{ application.notes }}')">Edit</button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -45,9 +58,11 @@
     <!-- Popup Form -->
     <div id="popup-form" class="popup" style="display: none;">
         <div class="popup-content">
-            <h2>Add New Application</h2>
+            <h2 id="popup-title">Add New Application</h2>
             <form method="post" action="{% url 'add_application' %}">
                 {% csrf_token %}
+                <input type="hidden" id="application-id" name="id" value=""> <!-- Hidden field for ID -->
+                
                 <label for="company">Company:</label>
                 <input type="text" id="company" name="company" required>
                 
@@ -65,7 +80,7 @@
                 </select>
                 
                 <label for="deadline">Deadline:</label>
-                <input type="date" id="deadline" name="deadline" required>
+                <input type="date" id="deadline" name="deadline">
                 
                 <label for="date_applied">Date Applied:</label>
                 <input type="date" id="date_applied" name="date_applied">
@@ -73,19 +88,52 @@
                 <label for="notes">Notes:</label>
                 <textarea id="notes" name="notes"></textarea>
                 
-                <button type="submit" class="submit-button">Add</button>
+                <button type="submit" class="submit-button" id="submit-button">Add</button>
                 <button type="button" class="cancel-button" onclick="closePopup()">Cancel</button>
             </form>
         </div>
     </div>
 
     <script>
+        // Open popup for adding a new application
         function openPopup() {
             document.getElementById("popup-form").style.display = "block";
+            document.getElementById("popup-title").textContent = "Add New Application";
+            document.getElementById("submit-button").textContent = "Add";
+            clearPopupFields();
         }
 
+        // Open popup for editing an existing application
+        function editApplication(id, company, position, status, deadline, date_applied, notes) {
+            document.getElementById("popup-form").style.display = "block";
+            document.getElementById("popup-title").textContent = "Edit Application";
+            document.getElementById("submit-button").textContent = "Save Changes";
+            
+            // Populate fields with existing data
+            document.getElementById("application-id").value = id;
+            document.getElementById("company").value = company;
+            document.getElementById("position").value = position;
+            document.getElementById("status").value = status;
+            document.getElementById("deadline").value = deadline;
+            document.getElementById("date_applied").value = date_applied;
+            document.getElementById("notes").value = notes;
+        }
+
+        // Close popup
         function closePopup() {
             document.getElementById("popup-form").style.display = "none";
+            clearPopupFields();
+        }
+
+        // Clear popup fields
+        function clearPopupFields() {
+            document.getElementById("application-id").value = "";
+            document.getElementById("company").value = "";
+            document.getElementById("position").value = "";
+            document.getElementById("status").value = "Yet to Apply";
+            document.getElementById("deadline").value = "";
+            document.getElementById("date_applied").value = "";
+            document.getElementById("notes").value = "";
         }
     </script>
 </body>
