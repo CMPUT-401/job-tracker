@@ -5,12 +5,11 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
 
-/* Header Styles */
 header {
     width: 100%;
     background: #3D52A0;
@@ -29,42 +28,108 @@ header {
     margin-right: 10px;
 }
 
-.logout-button {
-    background-color: #ffffff;
-    color: #3D52A0;
+/* Container Styles */
+.container {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    display: flex;
+    width: 900px;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* Form Containers */
+.form-container {
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #ffffff;
+}
+
+.form-container h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-container input {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 300px;
+    font-size: 14px;
+}
+
+.form-container button {
     border: none;
     border-radius: 5px;
-    padding: 8px 15px;
+    padding: 15px 20px;
+    background-color: #3D52A0;
+    color: white;
+    font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.logout-button:hover {
+.form-container button:hover {
     background-color: #2E3D76;
-    color: white;
 }
 
-.ai-button {
-    background-color: #ffffff;
-    color: #3D52A0;
-    border: none;
+/* Overlay Styles */
+.overlay-container {
+    flex: 1;
+    background: #3D52A0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 50px;
+}
+
+.overlay h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.overlay p {
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.overlay .ghost {
+    background: transparent;
+    border: 2px solid white;
     border-radius: 5px;
-    padding: 8px 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.ai-button:hover {
-    background-color: #2E3D76;
     color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Main Content */
+.overlay .ghost:hover {
+    background-color: white;
+    color: #3D52A0;
+}
+
+/* Dashboard Main Content */
 main {
     width: 80%;
     margin-top: 20px;
     text-align: center;
 }
+
+/* Table Styles */
+
 
 main table {
     width: 100%;
@@ -92,8 +157,18 @@ main table tr:hover {
     transition: background-color 0.3s ease;
 }
 
-/* Add Application Button */
-.add-button {
+
+/* Button Group Styling */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.add-button,
+.ai-button,
+.master-resume-button {
     background-color: #3D52A0;
     color: white;
     border: none;
@@ -101,10 +176,12 @@ main table tr:hover {
     padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
-    margin: 10px 0;
+    transition: background-color 0.3s ease;
 }
 
-.add-button:hover {
+.add-button:hover,
+.ai-button:hover,
+.master-resume-button:hover {
     background-color: #2E3D76;
 }
 
@@ -153,18 +230,7 @@ main table tr:hover {
     width: 100%;
 }
 
-
-
-textarea {
-    width: 100%;
-    height: 150px;
-    margin-top: 10px;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-.popup-content .submit-button, .popup-content .cancel-button, .popup-content .submit-button-ai{
+.popup-content .submit-button, .popup-content .cancel-button {
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -173,12 +239,12 @@ textarea {
     margin-top: 10px;
 }
 
-.popup-content .submit-button, .popup-content .submit-button-ai {
+.popup-content .submit-button {
     background-color: #3D52A0;
     color: white;
 }
 
-.popup-content .submit-button:hover, .popup-content .submit-button-ai:hover {
+.popup-content .submit-button:hover {
     background-color: #2E3D76;
 }
 
@@ -189,4 +255,93 @@ textarea {
 
 .popup-content .cancel-button:hover {
     background-color: #bbb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .form-container, .overlay-container {
+        width: 100%;
+    }
+
+    main table {
+        font-size: 14px; /* Adjust font size for smaller screens */
+        width: 100%;
+    }
+}
+
+.filter-options {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.filter-options select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: white;
+    display: inline-block;
+}
+
+.status-yet-to-apply { background-color: #f0ad4e; } /* Orange */
+.status-applied { background-color: #5bc0de; } /* Blue */
+.status-interview-offer { background-color: #0275d8; } /* Dark Blue */
+.status-interview-completed { background-color: #5cb85c; } /* Green */
+.status-offered { background-color: #28a745; } /* Dark Green */
+.status-rejected { background-color: #d9534f; } /* Red */
+
+.notification-icon {
+    position: relative;
+    cursor: pointer;
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.notification-count {
+    background: red;
+    color: white;
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 2px 6px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.notification-panel {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1000;
+}
+
+.notification-panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification-panel li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-panel li:last-child {
+    border-bottom: none;
 }
