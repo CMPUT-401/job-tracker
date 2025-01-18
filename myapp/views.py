@@ -75,44 +75,110 @@ def logout_user(request):
     return redirect('login')
 
 def resume_tailor(request):
-    # Example data for Master Resume
-    master_resume = {
-        "Experiences": [
-            "Software Engineer at XYZ Corp (2020 - Present)",
-            "Intern at ABC Inc. (2018 - 2019)"
-        ],
-        "Projects": [
-            "Developed a job tracking application using Django",
-            "Created a weather forecasting app using React"
-        ],
-        "Skills": [
-            "Python, Django, JavaScript",
-            "SQL, PostgreSQL, MongoDB"
-        ]
-    }
+    if 'master_resume' not in request.session:
+        request.session['master_resume'] = {
+            "Experiences": [
+                "Software Engineer at XYZ Corp (2020 - Present)",
+                "Intern at ABC Inc. (2018 - 2019)"
+            ],
+            "Projects": [
+                "Developed a job tracking application using Django",
+                "Created a weather forecasting app using React"
+            ],
+            "Skills": [
+                "Python, Django, JavaScript",
+                "SQL, PostgreSQL, MongoDB"
+            ]
+        }
+    if 'blank_resume' not in request.session:
+        request.session['blank_resume'] = {}
 
-    # Initialize or retrieve blank_resume from session
+    master_resume = request.session['master_resume']
+    blank_resume = request.session['blank_resume']
+
     if request.method == "POST":
-        selected_items = request.POST.getlist('selected_items')
-        # Retrieve blank_resume as a dictionary or initialize a new one
-        blank_resume = request.session.get('blank_resume', {})
-        if not isinstance(blank_resume, dict):
-            blank_resume = {}  # Ensure blank_resume is a dictionary
+        action = request.POST.get('action')
+        print(f"Action: {action}")  # Debugging to see what action was triggered
 
-        for item in selected_items:
-            section, content = item.split('|', 1)  # Split section and content
-            if section not in blank_resume:
-                blank_resume[section] = []  # Initialize section if it doesn't exist
-            if content not in blank_resume[section]:
-                blank_resume[section].append(content)  # Append content to the section
+        if action == "add_to_blank":
+            selected_items = request.POST.getlist('selected_items')
+            print(f"Selected Items: {selected_items}")
+            for item in selected_items:
+                section, content = item.split('|', 1)
+                # Add the item to blank_resume
+                if section not in blank_resume:
+                    blank_resume[section] = []
+                if content not in blank_resume[section]:
+                    blank_resume[section].append(content)
+                # Do NOT remove from master_resume in this step
+                # Uncomment the following lines ONLY if you want to remove after copying:
+                # if section in master_resume and content in master_resume[section]:
+                #     master_resume[section].remove(content)
 
-        # Save the updated blank_resume back to the session
+        elif action.startswith("copy_section"):
+            section = action.split('|')[1]
+            if section in master_resume and section not in blank_resume:
+                blank_resume[section] = master_resume[section][:]
+
+        elif action == "remove_from_blank":
+            section = request.POST.get('section')
+            content = request.POST.get('content')
+            if section in blank_resume and content in blank_resume[section]:
+                blank_resume[section].remove(content)
+                if not blank_resume[section]:
+                    del blank_resume[section]
+
+        elif action == "add_section_master":
+            new_section = request.POST.get('new_section')
+            if new_section:
+                new_section = new_section.strip()
+                if new_section and new_section not in master_resume:
+                    master_resume[new_section] = []
+
+        elif action == "remove_section_blank":
+            section = request.POST.get('section')
+            if section in blank_resume:
+                del blank_resume[section]
+
+        elif action == "remove_section_master":
+            section = request.POST.get('section')
+            if section in master_resume:
+                del master_resume[section]
+
+        elif action == "add_section_blank":
+            new_section = request.POST.get('new_section').strip()
+            if new_section and new_section not in blank_resume:
+                blank_resume[new_section] = []
+
+        elif action == "add_item_master":
+            section = request.POST.get('section')
+            new_item = request.POST.get('new_item').strip()
+            if section in master_resume and new_item:
+                master_resume[section].append(new_item)
+
+        elif action == "add_item_blank":
+            section = request.POST.get('section')
+            new_item = request.POST.get('new_item')
+            if section and new_item:
+                section = section.strip()
+                new_item = new_item.strip()
+                if section not in blank_resume:
+                    blank_resume[section] = []
+                blank_resume[section].append(new_item)
+                
+        elif action == "remove_from_master":
+            section = request.POST.get('section')
+            content = request.POST.get('content')
+            if section in master_resume and content in master_resume[section]:
+                master_resume[section].remove(content)
+                if not master_resume[section]:
+                    del master_resume[section]
+
+        # Save the updates to session
+        request.session['master_resume'] = master_resume
         request.session['blank_resume'] = blank_resume
-    else:
-        # Retrieve blank_resume from the session for GET requests
-        blank_resume = request.session.get('blank_resume', {})
-        if not isinstance(blank_resume, dict):
-            blank_resume = {}
+
+        print(f"Blank Resume After Update: {request.session['blank_resume']}")
 
     return render(request, 'resume_tailor.html', {
         'master_resume': master_resume,

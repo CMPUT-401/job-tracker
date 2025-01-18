@@ -11,7 +11,7 @@
         <div class="button-group">
             <button class="add-button" onclick="openPopup()">Add Application</button>
             <button class="ai-button" onclick="openPopupAI()">AI Tailor</button>
-            <button class="master-resume-button" onclick="viewMasterResume()">Master Resume</button>
+            <button id="master-resume-button" class="master-resume-button">Master Resume</button>
         </div>
 
         <!-- Notification Icon -->
@@ -120,7 +120,7 @@
     </div>
 
     <!-- Popup Form -->
-    <div id="popup-ai" class="popup-ai" style="display: none;">
+    <div id="popup-ai" class="popup" style="display: none;">
         <div class="popup-content">
             <h2>Jobscan</h2>
                 <h3>Job Description</h3>
@@ -176,6 +176,11 @@
             document.getElementById("date_applied").value = "";
             document.getElementById("notes").value = "";
         }
+
+        document.getElementById('master-resume-button').addEventListener('click', function () {
+        window.location.href = "{% url 'resume_tailor' %}";
+    });
+
     </script>
 </body>
 </html>
