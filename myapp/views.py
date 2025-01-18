@@ -58,23 +58,45 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
-
-
 def resume_tailor(request):
-    # Simulating a master resume for now
-    master_resume = [
-        "Developed REST APIs using Django and Flask.",
-        "Optimized database queries, improving performance by 25%.",
-        "Led a team of 5 to deliver high-quality software projects.",
-        "Proficient in Python, JavaScript, and SQL.",
-        "Collaborated with cross-functional teams to achieve project goals."
-    ]
-    blank_resume = []
+    # Example data for Master Resume
+    master_resume = {
+        "Experiences": [
+            "Software Engineer at XYZ Corp (2020 - Present)",
+            "Intern at ABC Inc. (2018 - 2019)"
+        ],
+        "Projects": [
+            "Developed a job tracking application using Django",
+            "Created a weather forecasting app using React"
+        ],
+        "Skills": [
+            "Python, Django, JavaScript",
+            "SQL, PostgreSQL, MongoDB"
+        ]
+    }
 
-    if request.method == 'POST':
-        # Logic to handle copying items from master to blank resume
+    # Initialize or retrieve blank_resume from session
+    if request.method == "POST":
         selected_items = request.POST.getlist('selected_items')
-        blank_resume.extend(selected_items)
+        # Retrieve blank_resume as a dictionary or initialize a new one
+        blank_resume = request.session.get('blank_resume', {})
+        if not isinstance(blank_resume, dict):
+            blank_resume = {}  # Ensure blank_resume is a dictionary
+
+        for item in selected_items:
+            section, content = item.split('|', 1)  # Split section and content
+            if section not in blank_resume:
+                blank_resume[section] = []  # Initialize section if it doesn't exist
+            if content not in blank_resume[section]:
+                blank_resume[section].append(content)  # Append content to the section
+
+        # Save the updated blank_resume back to the session
+        request.session['blank_resume'] = blank_resume
+    else:
+        # Retrieve blank_resume from the session for GET requests
+        blank_resume = request.session.get('blank_resume', {})
+        if not isinstance(blank_resume, dict):
+            blank_resume = {}
 
     return render(request, 'resume_tailor.html', {
         'master_resume': master_resume,
