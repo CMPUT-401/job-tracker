@@ -19,7 +19,7 @@ def resume_tailor(request):
         selected_items = request.POST.getlist('selected_items')
         blank_resume.extend(selected_items)
 
-    return render(request, 'tracker/resume_tailor.html', {
+    return render(request, 'resume_tailor.html', {
         'master_resume': master_resume,
         'blank_resume': blank_resume,
     })
