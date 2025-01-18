@@ -4,11 +4,11 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import JobApplication, Notification
 from django.utils.dateparse import parse_date
-import spacy
+#import spacy
 from collections import Counter
 from django.http import JsonResponse
 
-nlp = spacy.load("en_core_web_sm") #load spacy language model
+#nlp = spacy.load("en_core_web_sm") #load spacy language model
 
 def extract_keywords(text, top_n=10):
     """
