@@ -8,7 +8,38 @@
 <body>
     <main>
         <h2>Job Applications</h2>
-        <button class="add-button" onclick="openPopup()">Add Application</button>
+        <div class="button-group">
+            <button class="add-button" onclick="openPopup()">Add Application</button>
+            <button class="ai-button" onclick="openPopupAI()">AI Tailor</button>
+            <button class="master-resume-button" onclick="viewMasterResume()">Master Resume</button>
+        </div>
+
+        <!-- Notification Icon -->
+        <div class="notification-icon" onclick="toggleNotifications()">
+            🛎️
+            {% if notifications %}
+            <span class="notification-count">{{ notifications|length }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Notification Panel -->
+        <div id="notification-panel" class="notification-panel" style="display: none;">
+            <h3>Notifications</h3>
+            {% if notifications %}
+            <ul>
+                {% for notification in notifications %}
+                <li>
+                    <p>{{ notification.message }}</p>
+                    <small>{{ notification.created_at|date:"M d, Y H:i" }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No new notifications</p>
+            {% endif %}
+        </div>
+
+        <!-- Filter Options -->
         <div class="filter-options">
             <span>Filter by Status: </span>
             <form method="get" action="{% url 'dashboard' %}">
@@ -20,6 +51,8 @@
                 </select>
             </form>
         </div>
+
+        <!-- Job Applications Table -->
         <table>
             <thead>
                 <tr>
@@ -29,7 +62,7 @@
                     <th>Deadline</th>
                     <th>Date Applied</th>
                     <th>Notes</th>
-                    <th>Actions</th> <!-- New Actions column -->
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +79,6 @@
                     <td>{{ application.date_applied }}</td>
                     <td>{{ application.notes }}</td>
                     <td>
-                        <!-- Edit button -->
                         <button class="edit-button" onclick="editApplication('{{ application.id }}', '{{ application.company }}', '{{ application.position }}', '{{ application.status }}', '{{ application.deadline }}', '{{ application.date_applied }}', '{{ application.notes }}')">Edit</button>
                     </td>
                 </tr>
@@ -61,16 +93,13 @@
             <h2 id="popup-title">Add New Application</h2>
             <form method="post" action="{% url 'add_application' %}">
                 {% csrf_token %}
-                <input type="hidden" id="application-id" name="id" value=""> <!-- Hidden field for ID -->
-                
+                <input type="hidden" id="application-id" name="id" value="">
                 <label for="company">Company:</label>
-                <input type="text" id="company" name="company" required>
-                
+                <input type="text" id="company" name="company">
                 <label for="position">Position:</label>
-                <input type="text" id="position" name="position" required>
-                
+                <input type="text" id="position" name="position">
                 <label for="status">Status:</label>
-                <select id="status" name="status" required>
+                <select id="status" name="status">
                     <option value="Yet to Apply">Yet to Apply</option>
                     <option value="Applied">Applied</option>
                     <option value="Interview Offer">Interview Offer</option>
@@ -78,24 +107,41 @@
                     <option value="Offered">Offered</option>
                     <option value="Rejected">Rejected</option>
                 </select>
-                
                 <label for="deadline">Deadline:</label>
                 <input type="date" id="deadline" name="deadline">
-                
                 <label for="date_applied">Date Applied:</label>
                 <input type="date" id="date_applied" name="date_applied">
-                
                 <label for="notes">Notes:</label>
                 <textarea id="notes" name="notes"></textarea>
-                
                 <button type="submit" class="submit-button" id="submit-button">Add</button>
                 <button type="button" class="cancel-button" onclick="closePopup()">Cancel</button>
             </form>
         </div>
     </div>
 
+    <!-- Popup Form -->
+    <div id="popup-ai" class="popup-ai" style="display: none;">
+        <div class="popup-content">
+            <h2>Jobscan</h2>
+                <h3>Job Description</h3>
+                <input id="Job-description" name="Paste Job Description..." required>
+                <button type="button"  class="cancel-button" onclick="submitText()">Generate keywords</button>
+                <button type="button" class="cancel-button" onclick="closePopupAI()">Cancel</button>
+
+            </form>
+
+            <h2>Extracted Keywords:</h2>
+            <ul id="keywords-list"></ul>
+        </div>
+
+    </div>
+
     <script>
-        // Open popup for adding a new application
+        function toggleNotifications() {
+            const panel = document.getElementById("notification-panel");
+            panel.style.display = panel.style.display === "block" ? "none" : "block";
+        }
+
         function openPopup() {
             document.getElementById("popup-form").style.display = "block";
             document.getElementById("popup-title").textContent = "Add New Application";
@@ -103,13 +149,10 @@
             clearPopupFields();
         }
 
-        // Open popup for editing an existing application
         function editApplication(id, company, position, status, deadline, date_applied, notes) {
             document.getElementById("popup-form").style.display = "block";
             document.getElementById("popup-title").textContent = "Edit Application";
             document.getElementById("submit-button").textContent = "Save Changes";
-            
-            // Populate fields with existing data
             document.getElementById("application-id").value = id;
             document.getElementById("company").value = company;
             document.getElementById("position").value = position;
@@ -119,13 +162,11 @@
             document.getElementById("notes").value = notes;
         }
 
-        // Close popup
         function closePopup() {
             document.getElementById("popup-form").style.display = "none";
             clearPopupFields();
         }
 
-        // Clear popup fields
         function clearPopupFields() {
             document.getElementById("application-id").value = "";
             document.getElementById("company").value = "";

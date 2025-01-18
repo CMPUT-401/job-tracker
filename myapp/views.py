@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import JobApplication
+from .models import JobApplication, Notification
 from django.utils.dateparse import parse_date
 
 def signup(request):
@@ -61,7 +61,14 @@ def dashboard(request):
         applications = JobApplication.objects.all()  # Otherwise, show all applications
 
     statuses = ['Yet to Apply', 'Applied', 'Interview Offer', 'Interview Completed', 'Offered', 'Rejected']
-    return render(request, 'dashboard.html', {'applications': applications, 'statuses': statuses})
+    notifications = Notification.objects.filter(user=request.user, is_read=False).order_by('-created_at')
+
+    # Pass both `applications`, `statuses`, and `notifications` to the template
+    return render(request, 'dashboard.html', {
+        'applications': applications,
+        'statuses': statuses,
+        'notifications': notifications,
+    })
 
 def logout_user(request):
     logout(request)
