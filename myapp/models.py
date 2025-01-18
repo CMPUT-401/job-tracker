@@ -1,26 +1,21 @@
 from django.db import models
 
-# Create your models here.
-from django.db import models
+class JobApplication(models.Model):
+    STATUS_CHOICES = [
+        ('Yet to Apply', 'Yet to Apply'),
+        ('Applied', 'Applied'),
+        ('Interview Offer', 'Interview Offer'),
+        ('Interview Completed', 'Interview Completed'),
+        ('Offered', 'Offered'),
+        ('Rejected', 'Rejected'),
+    ]
 
-class Application(models.Model):
     company = models.CharField(max_length=255)
     position = models.CharField(max_length=255)
-    status = models.CharField(
-        max_length=50,
-        choices=[
-            ('Yet to Apply', 'Yet to Apply'),
-            ('Applied', 'Applied'),
-            ('Interview Offer', 'Interview Offer'),
-            ('Interview Completed', 'Interview Completed'),
-            ('Offered', 'Offered'),
-            ('Rejected', 'Rejected'),
-        ],
-        default='Yet to Apply',
-    )
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Yet to Apply')
     deadline = models.DateField()
-    date_applied = models.DateField()
-    resume_link = models.URLField()
+    date_applied = models.DateField(blank=True, null=True)
+    resume_link = models.URLField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):

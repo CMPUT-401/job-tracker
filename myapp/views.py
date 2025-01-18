@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .models import JobApplication
 
 def signup(request):
     if request.method == 'POST':
@@ -52,7 +53,8 @@ def home(request):
     return render(request, 'home.html')
 
 def dashboard(request):
-    return render(request, 'dashboard.html', {'username': request.user.username})
+    applications = JobApplication.objects.all()  # Fetch all job applications
+    return render(request, 'dashboard.html', {'applications': applications})
 
 def logout_user(request):
     logout(request)
@@ -102,3 +104,23 @@ def resume_tailor(request):
         'master_resume': master_resume,
         'blank_resume': blank_resume,
     })
+
+def add_application(request):
+    if request.method == 'POST':
+        company = request.POST['company']
+        position = request.POST['position']
+        status = request.POST['status']
+        deadline = request.POST['deadline']
+        date_applied = request.POST.get('date_applied', None)
+        notes = request.POST.get('notes', '')
+
+        JobApplication.objects.create(
+            company=company,
+            position=position,
+            status=status,
+            deadline=deadline,
+            date_applied=date_applied,
+            notes=notes
+        )
+        return redirect('dashboard')  # Redirect to the dashboard after adding
+    return render(request, 'dashboard.html')

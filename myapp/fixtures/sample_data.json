@@ -1,0 +1,28 @@
+[
+    {
+        "model": "myapp.jobapplication",
+        "pk": 1,
+        "fields": {
+            "company": "Google",
+            "position": "Software Engineer",
+            "status": "Applied",
+            "deadline": "2025-02-01",
+            "date_applied": "2025-01-15",
+            "resume_link": "https://example.com/resume",
+            "notes": "Exciting opportunity!"
+        }
+    },
+    {
+        "model": "myapp.jobapplication",
+        "pk": 2,
+        "fields": {
+            "company": "Microsoft",
+            "position": "Data Scientist",
+            "status": "Interview Offer",
+            "deadline": "2025-03-01",
+            "date_applied": "2025-02-01",
+            "resume_link": "https://example.com/resume2",
+            "notes": "Scheduled for next week."
+        }
+    }
+]

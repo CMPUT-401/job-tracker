@@ -1,19 +1,92 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <a href="{% url 'resume_tailor' %}" style="margin-bottom: 20px; display: inline-block;">Switch to Resume Tailor</a>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 <body>
     <header>
         <div class="header-right">
-            <span>Welcome, {{ username }}</span>
-            <a href="{% url 'logout' %}"><button class="logout-button">Logout</button></a>
+            <span>Welcome, User!</span>
+            <button class="logout-button">Logout</button>
         </div>
     </header>
+    <main>
+        <h1>Dashboard</h1>
+        <h2>Job Applications</h2>
+        <button class="add-button" onclick="openPopup()">Add Application</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Position</th>
+                    <th>Status</th>
+                    <th>Deadline</th>
+                    <th>Date Applied</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applications %}
+                <tr>
+                    <td>{{ application.company }}</td>
+                    <td>{{ application.position }}</td>
+                    <td>{{ application.status }}</td>
+                    <td>{{ application.deadline }}</td>
+                    <td>{{ application.date_applied }}</td>
+                    <td>{{ application.notes }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Popup Form -->
+    <div id="popup-form" class="popup" style="display: none;">
+        <div class="popup-content">
+            <h2>Add New Application</h2>
+            <form method="post" action="{% url 'add_application' %}">
+                {% csrf_token %}
+                <label for="company">Company:</label>
+                <input type="text" id="company" name="company" required>
+                
+                <label for="position">Position:</label>
+                <input type="text" id="position" name="position" required>
+                
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="Yet to Apply">Yet to Apply</option>
+                    <option value="Applied">Applied</option>
+                    <option value="Interview Offer">Interview Offer</option>
+                    <option value="Interview Completed">Interview Completed</option>
+                    <option value="Offered">Offered</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+                
+                <label for="deadline">Deadline:</label>
+                <input type="date" id="deadline" name="deadline" required>
+                
+                <label for="date_applied">Date Applied:</label>
+                <input type="date" id="date_applied" name="date_applied">
+                
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes"></textarea>
+                
+                <button type="submit" class="submit-button">Add</button>
+                <button type="button" class="cancel-button" onclick="closePopup()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openPopup() {
+            document.getElementById("popup-form").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("popup-form").style.display = "none";
+        }
+    </script>
 </body>
 </html>

@@ -1,195 +1,166 @@
 /* General Styles */
 body {
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     background: #f6f5f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-/* Container Styles */
-.container {
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    display: flex;
-    width: 900px;
-    max-width: 100%;
-    overflow: hidden;
-    position: relative;
-}
-
-/* Form Container Styles */
-.form-container {
-    padding: 50px;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: #ffffff;
-}
-
-.form-container h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.form-container input {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    margin: 10px 0;
-    width: 100%;
-    max-width: 300px;
-    font-size: 14px;
-}
-
-.form-container button {
-    border: none;
-    border-radius: 5px;
-    padding: 15px 20px;
-    background-color: #3D52A0;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.form-container button:hover {
-    background-color: #3D52A0;
-}
-
-/* Social Container Styles */
-.social-container {
-    margin-bottom: 20px;
-}
-
-.social-container a {
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    margin: 0 5px;
-    color: #3D52A0;
-    font-size: 18px;
-    text-decoration: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.social-container a:hover {
-    background-color: #4caf50;
-    color: #fff;
-}
-
-/* Overlay Styles */
-.overlay-container {
-    background: #3D52A0;
-    color: white;
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 50px;
-}
-
-.overlay-container .overlay h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-.overlay-container .overlay p {
-    font-size: 14px;
-    margin-bottom: 30px;
-}
-
-.overlay-container .overlay button {
-    background: transparent;
-    border: 2px solid white;
-    border-radius: 5px;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.overlay-container .overlay button:hover {
-    background-color: white;
-    color: #4caf50;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .form-container,
-    .overlay-container {
-        width: 100%;
-    }
-}
-
-/* General Reset */
-body, html {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
 /* Header Styles */
 header {
     width: 100%;
-    color: #3D52A0;
+    background: #3D52A0;
+    color: white;
     padding: 10px 20px;
     display: flex;
-    justify-content: flex-end; /* Align content to the right */
+    justify-content: flex-end;
     align-items: center;
     position: sticky;
     top: 0;
-    z-index: 1000; /* Ensures header stays on top */
-}
-
-/* Welcome Message and Logout Button */
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Space between the message and button */
+    z-index: 1000;
 }
 
 .header-right span {
     font-size: 16px;
-    font-weight: bold;
+    margin-right: 10px;
 }
 
 .logout-button {
-    background-color: #3D52A0; /* Button color */
-    color: white;
+    background-color: #ffffff;
+    color: #3D52A0;
     border: none;
     border-radius: 5px;
     padding: 8px 15px;
-    font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .logout-button:hover {
-    background-color: #2E3D76; /* Darker shade on hover */
+    background-color: #2E3D76;
+    color: white;
 }
 
 /* Main Content */
 main {
-    padding: 20px;
+    width: 80%;
+    margin-top: 20px;
     text-align: center;
+}
+
+main table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+main table th, main table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+main table th {
+    background-color: #3D52A0;
+    color: white;
+    font-weight: bold;
+}
+main table tr:nth-child(even) {
+    background-color: #f6f5f7;
+}
+main table tr:hover {
+    background-color: #e0e0e0;
+    transition: background-color 0.3s ease;
+}
+
+/* Add Application Button */
+.add-button {
+    background-color: #3D52A0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.add-button:hover {
+    background-color: #2E3D76;
+}
+
+/* Popup Form */
+.popup {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content h2 {
+    margin-top: 0;
+}
+
+.popup-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-content label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.popup-content input, .popup-content select, .popup-content textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.popup-content .submit-button, .popup-content .cancel-button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.popup-content .submit-button {
+    background-color: #3D52A0;
+    color: white;
+}
+
+.popup-content .submit-button:hover {
+    background-color: #2E3D76;
+}
+
+.popup-content .cancel-button {
+    background-color: #ddd;
+    color: black;
+}
+
+.popup-content .cancel-button:hover {
+    background-color: #bbb;
 }
