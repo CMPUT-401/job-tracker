@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Tailoring</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        .resume-section {
+            width: 45%;
+            border: 1px solid #ddd;
+            padding: 15px;
+        }
+        .resume-section h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resume Tailoring</h1>
+    <a href="{% url 'home' %}" style="margin-bottom: 20px; display: inline-block;">Back to Application Tracker</a>
+    <div class="container">
+        <!-- Master Resume Section -->
+        <div class="resume-section">
+            <h2>Master Resume</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for item in master_resume %}
+                    <div>
+                        <input type="checkbox" name="selected_items" value="{{ item }}">
+                        {{ item }}
+                    </div>
+                {% endfor %}
+                <button type="submit">Copy Selected Items</button>
+            </form>
+        </div>
+
+        <!-- Blank Resume Section -->
+        <div class="resume-section">
+            <h2>Tailored Resume</h2>
+            <ul>
+                {% for item in blank_resume %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
