@@ -20,35 +20,35 @@ The Job Application Organizer is a web-based platform designed to help job seeke
 - Edit and generate customized resumes for different job applications.
 
 📬 Response & Communication Tracking
-Log interview invitations, rejections, and job offers.
-Track communication history with potential employers.
+- Log interview invitations, rejections, and job offers.
+- Track communication history with potential employers.
 
 🎨 User-Friendly, Accessible, and Engaging Visual Design
-Intuitive UI for seamless navigation.
-Mobile & desktop compatibility for on-the-go access.
-Visually appealing design to make job tracking an engaging experience.
+- Intuitive UI for seamless navigation.
+- Mobile & desktop compatibility for on-the-go access.
+- Visually appealing design to make job tracking an engaging experience.
 
 **🛠️ Installation & Setup**
 
 _Clone the Repository_
-git clone https://github.com/yourusername/job-application-organizer.git
-cd job-application-organizer
+- git clone https://github.com/yourusername/job-application-organizer.git
+- cd job-application-organizer
 
 _Set Up a Virtual Environment (Optional but Recommended)_
-python -m venv venv
-source venv/bin/activate
+- python -m venv venv
+- source venv/bin/activate
 
 _Install Dependencies_
-pip install -r requirements.txt
+- pip install -r requirements.txt
 
 _Run Migrations_
-python manage.py migrate
+- python manage.py migrate
 
 _Start the Development Server_
-python manage.py runserver
+- python manage.py runserver
     
 _Open in Browser_
-Visit: http://127.0.0.1:8000/
+- Visit: http://127.0.0.1:8000/
 
 **🤝 Contributors**
 
