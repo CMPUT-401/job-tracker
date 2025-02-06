@@ -50,7 +50,7 @@ _Start the Development Server_
 _Open in Browser_
 - Visit: http://127.0.0.1:8000/
 
-##**🤝 Contributors**
+## **🤝 Contributors**
 
 👩‍💻 Aayushi Shah
 👨‍💻 Janan Panchal
