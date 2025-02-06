@@ -5,14 +5,15 @@
 The Job Application Organizer is a web-based platform designed to help job seekers efficiently manage and track their job applications. In today's competitive job market, keeping track of multiple applications, customized resumes, and responses from employers can be overwhelming. Our solution streamlines this process by offering an intuitive and structured approach to job application management.
 
 🎉 Winner of Winter 2025 Hackathon! 🎉
+
 🥇 Built using Django, HTML, Python, and CSS, this platform provides job seekers with an easy-to-use tool to stay organized and on top of their job search!
 
 **🛠️ Features**
 
 ✅ Tracking Applications
-      - Record and organize job applications with details such as company name, job position, application date, and status.
-      - Categorize applications into different stages (Applied, Interview, Offer, Rejected).
-      - Set reminders and follow-ups for pending applications.
+Record and organize job applications with details such as company name, job position, application date, and status.
+Categorize applications into different stages (Applied, Interview, Offer, Rejected).
+Set reminders and follow-ups for pending applications.
 📄 Master Resume & Customization
       - Store a master resume template for quick modifications.
       - Create tailored resumes for different job applications with ease.
