@@ -11,13 +11,13 @@ The Job Application Organizer is a web-based platform designed to help job seeke
 **🛠️ Features**
 
 ✅ Tracking Applications
-Record and organize job applications with details like company name, position, date applied, and status.
-Categorize applications into stages: Applied, Interview, Offer, Rejected.
-Set reminders and notifications for follow-ups.
+- Record and organize job applications with details like company name, position, date applied, and status.
+- Categorize applications into stages: Applied, Interview, Offer, Rejected.
+- Set reminders and notifications for follow-ups.
 
 📄 Master Resume & Customization
-Store a master resume template for quick access.
-Edit and generate customized resumes for different job applications.
+- Store a master resume template for quick access.
+- Edit and generate customized resumes for different job applications.
 
 📬 Response & Communication Tracking
 Log interview invitations, rejections, and job offers.
