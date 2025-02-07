@@ -11,7 +11,7 @@
         <div class="button-group">
             <button class="add-button" onclick="openPopup()">Add Application</button>
             <button class="ai-button" onclick="openPopupAI()">AI Tailor</button>
-            <button id="master-resume-button" class="master-resume-button">Master Resume</button>
+            <button id="master-resume-button" class="master-resume-button" onclick="navigateToMasterResume()">Master Resume</button>
         </div>
 
         <!-- Notification Icon -->
@@ -130,7 +130,7 @@
 
             </form>
 
-            <h2>Extracted Keywords:</h2>
+          
             <ul id="keywords-list"></ul>
         </div>
 
@@ -221,7 +221,9 @@
                 alert("Please enter some text!");
             }
         }
-
+        function navigateToMasterResume() {
+            window.location.href = "/resume-tailor/"; // Replace with the correct route for your `resume_tailor` view
+            }
         
     </script>
 </body>
